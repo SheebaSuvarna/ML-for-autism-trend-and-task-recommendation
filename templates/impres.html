@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Participant Results</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 20px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: #333;
+        text-align: center;
+      }
+
+      p {
+        font-size: 18px;
+        color: #555;
+      }
+
+      .participant-info {
+        margin-bottom: 20px;
+      }
+
+      .feature-trend {
+        margin-bottom: 30px;
+      }
+
+      img {
+        display: block;
+        margin: 0 auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .main-trend img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .feature-trend img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      @media (max-width: 800px) {
+        .container {
+          padding: 10px;
+        }
+
+        p {
+          font-size: 16px;
+        }
+
+        img {
+          width: 100%;
+        }
+      }
+      a {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+      }
+
+      a:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Participant Results</h1>
+
+      <div class="participant-info">
+        <h2>Participant Information</h2>
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Age:</strong> {{ age }}</p>
+        <p><strong>Gender:</strong> {{ gender }}</p>
+      </div>
+
+      <div class="main-trend">
+        <h2>Main Composite Score Trend</h2>
+        <img src="{{ main_plot_url }}" alt="Main Composite Score Trend" />
+      </div>
+      <div style="text-align: center">
+        <p><strong>Trend:</strong> {{ trend }}</p>
+        <p><strong>Slope:</strong> {{ slope }}</p>
+      </div>
+      <div class="feature-trends">
+        <h2>Individual Feature Trends</h2>
+        {% for feature, plot_url in feature_plots.items() %}
+        <div class="feature-trend">
+          <h3>{{ feature.replace("_", " ").title() }}</h3>
+          <img src="{{ plot_url }}" alt="{{ feature.replace("_", " ").title() }}
+          Trend" />
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <a href="/">Back to Home</a>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant Task Recommendation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #555;
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+            text-align: justify;
+            margin-top: 10px;
+        }
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+          }
+    
+          a:hover {
+            background-color: #0056b3;
+          }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Participant Task Recommendation</h1>
+        
+        <form action="/ability" method="post">
+            <label for="participant_id">Select Participant ID:</label>
+            <select name="participant_id" id="participant_id">
+                {% for participant_id in participant_ids %}
+                    <option value="{{ participant_id }}" {% if selected_participant_id == participant_id %} selected {% endif %}>{{ participant_id }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Recommend Task</button>
+        </form>
+
+        {% if participant_task is defined %}
+            <h2>Participant {{ selected_participant_id }} - Recommended Task Ability</h2>
+            {% if participant_task == 0 %}
+                <p><strong>Best Task Ability:</strong> Imitation</p>
+                <p>
+                    Imitation involves encouraging the individual with autism to mimic the actions, sounds, or behaviors of others. This technique aids in learning new skills, understanding social cues, and fostering communication and interaction abilities.
+                </p>
+            {% elif participant_task == 1 %}
+                <p><strong>Best Task Ability:</strong> Joint Attention</p>
+                <p>
+                    Joint Attention focuses on developing the ability to share attention with another person toward an object or event. It is crucial for social and communication development, helping individuals with autism engage meaningfully with others and their surroundings.
+                </p>
+            {% elif participant_task == 2 %}
+                <p><strong>Best Task Ability:</strong> Turn Taking</p>
+                <p>
+                    Turn Taking involves practicing the skill of taking turns in conversation or activities. This technique enhances social interaction, communication skills, and cooperative behavior among individuals with autism, fostering more meaningful interactions with peers and caregivers.
+                </p>
+            {% endif %}
+        {% endif %}
+    </div>
+    <a href="/">Back to Home</a>
+</body>
+</html>

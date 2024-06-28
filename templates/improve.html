@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Predict Composite Score Trend</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 50px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1,
+      h2 {
+        color: #333;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin: 10px 0 5px;
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      input[type="time"],
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+
+      .session-form {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button[type="button"] {
+        background-color: #6c757d;
+        color: white;
+      }
+
+      button[type="submit"] {
+        background-color: #007bff;
+        color: white;
+      }
+
+      button:hover {
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Enter Participant and Session Details for Analysis</h1>
+      <form id="sessionForm" action="/improvement" method="post">
+        <h2>Participant Details</h2>
+        <label>Name:</label>
+        <input type="text" name="participant_name" required />
+        <label>Age:</label>
+        <input type="number" name="participant_age" required />
+        <label>Gender:</label>
+        <select name="participant_gender" required>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <div id="sessionsContainer">
+          <div class="session-form">
+            <h2>Session 1</h2>
+            <label>Task Duration:</label>
+            <input type="time" name="task_duration" required />
+            <label>Elbow:</label>
+            <input type="number" step="0.01" name="elbow_combined" required />
+            <label>Hand:</label>
+            <input type="number" step="0.01" name="hand_combined" required />
+            <label>Wrist:</label>
+            <input type="number" step="0.01" name="wrist_combined" required />
+            <label>Shoulder:</label>
+            <input
+              type="number"
+              step="0.01"
+              name="shoulder_combined"
+              required
+            />
+            <label>Head:</label>
+            <input type="number" step="0.01" name="head_combined" required />
+            <label>Eye Gaze:</label>
+            <input type="number" step="0.01" name="eye_gaze_avg" required />
+            <label>Head Gaze:</label>
+            <input type="number" step="0.01" name="head_gaze_avg" required />
+          </div>
+        </div>
+
+        <div class="button-container">
+          <button type="button" onclick="addSession()">Add New Session</button>
+          <button id="recommendButton" type="submit">Predict</button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      let sessionCount = 1;
+
+      function addSession() {
+        sessionCount++;
+        const sessionsContainer = document.getElementById("sessionsContainer");
+
+        const newSessionForm = document.createElement("div");
+        newSessionForm.classList.add("session-form");
+        newSessionForm.innerHTML = `
+          <h2>Session ${sessionCount}</h2>
+          <label>Task Duration (HH:MM)</label>
+          <input type="time" name="task_duration" required><br>
+          <label>Elbow</label>
+          <input type="number" step="0.01" name="elbow_combined" required><br>
+          <label>Hand</label>
+          <input type="number" step="0.01" name="hand_combined" required><br>
+          <label>Wrist</label>
+          <input type="number" step="0.01" name="wrist_combined" required><br>
+          <label>Shoulder</label>
+          <input type="number" step="0.01" name="shoulder_combined" required><br>
+          <label>Head</label>
+          <input type="number" step="0.01" name="head_combined" required><br>
+          <label>Eye Gaze</label>
+          <input type="number" step="0.01" name="eye_gaze_avg" required><br>
+          <label>Head Gaze</label>
+          <input type="number" step="0.01" name="head_gaze_avg" required><br>
+          
+        `;
+        sessionsContainer.appendChild(newSessionForm);
+
+        // Update button state
+        updateButtonState();
+      }
+
+      function updateButtonState() {
+        const recommendButton = document.getElementById("recommendButton");
+
+        if (sessionCount >= 2) {
+          recommendButton.disabled = false;
+        } else {
+          recommendButton.disabled = true;
+        }
+      }
+
+      function validateForm() {
+        if (sessionCount < 2) {
+          alert("Minimum 2 session details must be entered.");
+          return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+      }
+
+      // Initially disable the recommend button
+      document.addEventListener("DOMContentLoaded", function () {
+        const recommendButton = document.getElementById("recommendButton");
+        recommendButton.disabled = true;
+      });
+    </script>
+  </body>
+</html>

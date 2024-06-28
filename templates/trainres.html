@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Processing Results</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 20px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1,
+      h2 {
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      p {
+        font-size: 18px;
+        color: #555;
+        margin: 10px 0;
+        text-align: center;
+      }
+
+      .image-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+      }
+
+      @media (min-width: 600px) {
+        img {
+          max-width: 45%;
+        }
+      }
+      a {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+      }
+
+      a:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Processing Results</h1>
+      <p>Initial count of participants: {{ initial_participant_count }}</p>
+      <p>
+        Count of participants with at least 30 sessions: {{
+        filtered_participant_count }}
+      </p>
+
+      <h2>Initial Session Counts</h2>
+      <div class="image-container">
+        <img
+          src="{{ url_for('static', filename='images/initial_sessions.png') }}"
+          alt="Initial Session Counts"
+        />
+      </div>
+
+      <h2>Filtered Session Counts</h2>
+      <div class="image-container">
+        <img
+          src="{{ url_for('static', filename='images/filtered_sessions.png') }}"
+          alt="Filtered Session Counts"
+        />
+      </div>
+    </div>
+    <a href="/">Back to Home</a>
+  </body>
+</html>
